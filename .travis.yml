@@ -1,0 +1,14 @@
+language: node_js
+node_js:
+  - 13
+
+service:
+  - docker
+
+script:
+  - docker --version
+  - docker build -t "$DOCKER_USER"/udagram-frontend:latest .
+
+after_success:
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USER" --password-stdin
+  - docker push "$DOCKER_USER"/udagram-frontend
